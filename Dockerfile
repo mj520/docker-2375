@@ -1,7 +1,5 @@
 FROM nginx:alpine
 
-ADD container-files /
-
-RUN chmod +x /docker-entrypoint.d/start.sh
+ADD nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 2375
