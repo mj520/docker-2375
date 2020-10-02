@@ -1,5 +1,11 @@
 FROM nginx:alpine
 
-ADD nginx.conf /etc/nginx/nginx.conf
+ADD templates /etc/nginx/
 
 EXPOSE 2375
+
+RUN echo -e "\nstream {\n    include /etc/nginx/conf.d/*.stream;\n}" >> /etc/nginx/nginx.conf
+
+ENV PROXY_PORT 2375
+
+ENV PROXY_PASS unix:/var/run/docker.sock
