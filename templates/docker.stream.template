@@ -1,4 +1,0 @@
-server {
-    listen $PROXY_PORT;
-    proxy_pass $PROXY_PASS;
-}
