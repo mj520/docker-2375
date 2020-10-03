@@ -27,8 +27,8 @@ PROXY_AUTH /etc/nginx/conf.d/htpasswd #change PROXY_USER is invalid
 ## for consul key <> file
 ```
 docker run -d --restart=always --name=docker-consul \
--e CONSUL_HTTP_ADDR=http://domain \
--e CONSUL_KEYFILE=your_key:/start.sh \
+-e CONSUL_HTTP_ADDR=http://consul:8500 \
+-e CONSUL_KEYFILE=key:/start.sh \
 -e CONSUL_OPT=put \
 mj520/docker-2375:consul
 
@@ -38,3 +38,5 @@ docker run --rm -v d:/data:/data hashicorp/consul-template:alpine \
 -template "/key.template:/key"
 
 docker run --rm -e consul kv get key > file
+
+```
