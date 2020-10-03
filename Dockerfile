@@ -1,13 +1,16 @@
-FROM nginx:alpine
+FROM consul
 
-ADD templates /etc/nginx/
+ADD start.sh /start.sh
 
-EXPOSE 2375
+RUN chmod +x /start.sh
 
-RUN echo -e "\nstream {\n    include /etc/nginx/conf.d/*.stream;\n}" >> /etc/nginx/nginx.conf
+CMD [ "/start.sh" ]
 
-ENV PROXY_PORT 2375
+# path/key:path/file,...
+ENV CONSUL_KEYFILE ""
 
-ENV PROXY_PASS unix:/var/run/docker.sock
+#get or put
+ENV CONSUL_OPT get
 
-RUN sed -i 's/nginx;/root;/g' /etc/nginx/nginx.conf
+# interval second
+ENV CONSUL_INTERVAL 60
