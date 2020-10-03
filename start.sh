@@ -8,9 +8,10 @@ while true;do
     for kfa in $kf_array;do
         key=${kfa%:*}
         file=${kfa#*:}
-        echo $key
-        echo $file
-        echo -e "\n"        
+        perfix=${key:0:1}
+        if [ "$perfix" = "/" ];then
+            key=${key:1}
+        fi
         if [ "$CONSUL_OPT" = "put" ];then
             content=`cat ${file}`
             consul kv put ${key} "${content}"
