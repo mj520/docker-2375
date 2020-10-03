@@ -1,8 +1,11 @@
-FROM consul
+FROM alpine
 
 ADD start.sh /start.sh
 
-RUN chmod +x /start.sh
+RUN chmod +x /start.sh  && \
+    echo "https://mirrors.aliyun.com/alpine/latest-stable/main" > /etc/apk/repositories && \
+    echo "https://mirrors.aliyun.com/alpine/latest-stable/community" >> /etc/apk/repositories && \
+    apk --update add --no-cache && apk add --no-cach curl
 
 CMD [ "/start.sh" ]
 
