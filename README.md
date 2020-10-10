@@ -1,42 +1,24 @@
-# docker-2375
-open docker 2375 port
+# drone plugin rancher redeploy
+    需要 镜像拉取策略:总是拉取
+
 ## useage
 ```
-docker run -d --restart=always --name=docker-2375 -v /var/run/docker.sock:/var/run/docker.sock:rw \
-    -p 2375:2375 mj520/docker-2375
 
-docker run -d --restart=always --name=docker-auth -e PROXY_PASS=https://www.baidu.com -e PROXY_PORT=80 \
-    -p 80:80 mj520/docker-2375:auth
-```
 
-## env for stream
-```
-PROXY_PORT 2375
-PROXY_PASS unix:/var/run/docker.sock
-```
+docker run --rm --name=test \
+    -e PLUGIN_TOKEN=your rancher token key:secret \
+    -e PLUGIN_API=https://rancher.testdoc.cn/v3/project/c-kdsh5:p-6kjl5/workloads/deployment:default:www \
+    mj520/drone-rancher
 
-## env for auth
-```
-PROXY_PORT 2375
-PROXY_PASS http://unix:/var/run/docker.sock
-# admin 123456
-PROXY_USER "admin:T8PxFzD7p5DUc"
-PROXY_AUTH /etc/nginx/conf.d/htpasswd #change PROXY_USER is invalid
-```
+steps:
+  - name: rancher-redeploy
+    image: mj520/drone-rancher
+    settings:
+        api: 
+            from_secret: rancher_api
+        token: 
+            from_secret: rancher_token
 
-## for consul key <> file
-```
-docker run -d --restart=always --name=docker-consul \
--e CONSUL_HTTP_ADDR=http://consul:8500 \
--e CONSUL_KEYFILE=key:/start.sh \
--e CONSUL_OPT=put \
-mj520/docker-2375:consul
-
-#use consul-template
-echo {{ key "key" }} > key.template
-docker run --rm -v d:/data:/data hashicorp/consul-template:alpine \
--template "/key.template:/key"
-
-docker run --rm -e consul kv get key > file
-
+注:api 支持 https://rancher.testdoc.cn/p/c-kdsh5:p-6kjl5/workload/deployment:default:www
+       转为 https://rancher.testdoc.cn/v3/project/c-kdsh5:p-6kjl5/workloads/deployment:default:www
 ```
