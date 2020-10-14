@@ -1,17 +1,25 @@
 #!/bin/sh
-if [ "$PLUGIN_TOKEN" = "" ];then
-    echo "PLUGIN_TOKEN is empty"
-    exit 1
-fi
-if [ "$PLUGIN_API" = "" ];then
-    echo "PLUGIN_API is empty"
-    exit 1
-fi
-PLUGIN_API=${PLUGIN_API/\/p\//\/v3\/project\/}
-PLUGIN_API=${PLUGIN_API/\/workload\//\/workloads\/}
-echo $PLUGIN_API
-echo $PLUGIN_TOKEN
-curl -k -X POST -s -H "Content-Type: application/json" \
--H 'Authorization: Bearer '$PLUGIN_TOKEN \
-$PLUGIN_API'?action=redeploy'
-echo "redeploy successfully"
+dockerd-entrypoint.sh  --registry-mirror="https://r1w81y9g.mirror.aliyuncs.com" &
+#默认env无法本地连接
+DOCKER_HOST=""
+#等待启动
+sleep 3
+#大于号分隔原和目标 逗号空格换行分隔多个
+imageList=${IMAGES//,/ }
+docker login $REGISTRY -u $USERNAME -p $PASSWORD
+for image in $imageList;
+do
+    source=${image%>*}
+    target=${image#*>}
+    docker pull $source
+    docker tag $source $REGISTRY/$target
+    docker push $REGISTRY/$target
+    if [ $? -eq 0 ];then
+        echo "$source > $target ok"
+    else
+        echo "$source > $target fail"
+    fi
+    docker rmi $source
+    docker rmi $REGISTRY/$target
+done
+echo "finish"
