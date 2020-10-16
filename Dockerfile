@@ -1,3 +1,5 @@
+FROM drone/drone-runner-docker as runner
+
 FROM docker:dind
 
 ADD start.sh /start.sh
@@ -5,14 +7,18 @@ ADD start.sh /start.sh
 RUN chmod +x /start.sh  && \
     echo "https://mirrors.aliyun.com/alpine/latest-stable/main" > /etc/apk/repositories && \
     echo "https://mirrors.aliyun.com/alpine/latest-stable/community" >> /etc/apk/repositories && \
-    apk --update add --no-cache
+    apk --update add --no-cache && apk add -U --no-cache ca-certificates
 
-ENV REGISTRY ""
+EXPOSE 3000
 
-ENV USERNAME ""
+ENV GODEBUG netdns=go
+ENV DRONE_PLATFORM_OS linux
+ENV DRONE_PLATFORM_ARCH amd64
 
-ENV PASSWORD ""
+COPY --from=runner /bin/drone-runner-docker /bin/drone-runner-docker
 
-ENV IMAGES ""
+LABEL com.centurylinklabs.watchtower.stop-signal="SIGINT"
 
-CMD [ "/start.sh" ]
+ENTRYPOINT ["/start.sh"]
+
+CMD [ "/bin/drone-runner-docker" ]
