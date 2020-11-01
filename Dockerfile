@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-ADD templates /etc/nginx/
+ADD templates /etc/nginx/templates/
 
 EXPOSE 2375
 
