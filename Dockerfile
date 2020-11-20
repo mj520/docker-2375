@@ -14,3 +14,5 @@ RUN chmod +x /start.sh && chmod +x /bin/drone-docker && \
 ENV DOCKER_HOST=unix:///var/run/docker.sock
 
 ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh", "/bin/drone-docker"]
+
+ENTRYPOINT ["/bin/drone-docker"]
