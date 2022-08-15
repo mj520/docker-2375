@@ -2,6 +2,8 @@ $PROXY_UPSTREAM
 server {
     auth_basic "User Authentication";
     auth_basic_user_file "$PROXY_AUTH";
+    keepalive_timeout 300s;
+    keepalive_requests 100000;
     listen $PROXY_PORT;
     location / {
         proxy_pass $PROXY_PASS;
