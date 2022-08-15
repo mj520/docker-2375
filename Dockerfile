@@ -6,6 +6,8 @@ EXPOSE 2375
 
 ENV PROXY_PORT 2375
 
+ENV PROXY_UPSTREAM "keepalive_timeout 300s;keepalive_requests 100000;upstream  backend {server consul:8500;keepalive 300;}"
+
 ENV PROXY_PASS http://unix:/var/run/docker.sock
 
 # admin 123456
