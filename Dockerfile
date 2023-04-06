@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/mj520/golang-build
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/alpine:3.16
 
 ADD start.sh /start.sh
 
