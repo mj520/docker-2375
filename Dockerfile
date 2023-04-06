@@ -1,10 +1,10 @@
-FROM alpine
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/golang-build:golang-alpine3.16
 
 ADD start.sh /start.sh
 
 RUN chmod +x /start.sh  && \
-    echo "https://mirrors.aliyun.com/alpine/latest-stable/main" > /etc/apk/repositories && \
-    echo "https://mirrors.aliyun.com/alpine/latest-stable/community" >> /etc/apk/repositories && \
+    echo "https://mirrors.aliyun.com/alpine/v3.16/main" > /etc/apk/repositories && \
+    echo "https://mirrors.aliyun.com/alpine/v3.16/community" >> /etc/apk/repositories && \
     apk --update add --no-cache && apk add --no-cach curl
 
 CMD [ "/start.sh" ]
@@ -19,3 +19,5 @@ ENV CONSUL_OPT get
 ENV CONSUL_INTERVAL 60
 
 ENV CONSUL_HTTP_ADD http://consul:8500
+
+ENV HOOK_COMMAND ""

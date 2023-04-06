@@ -19,5 +19,8 @@ while true;do
             curl -s -o "${file}" --create-dirs "${CONSUL_HTTP_ADDR}/v1/kv/${key}?raw=true"
         fi
     done
+    if [ "$HOOK_COMMAND" != "" ];then
+        $HOOK_COMMAND
+    fi
     sleep $CONSUL_INTERVAL
 done
