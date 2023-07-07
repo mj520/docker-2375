@@ -7,6 +7,7 @@ docker run -d --restart=always --name=docker-2375 -v /var/run/docker.sock:/var/r
 
 docker run -d --restart=always --name=docker-auth -e PROXY_PASS=https://www.baidu.com -e PROXY_PORT=80 \
     -p 80:80 mj520/docker-2375:auth
+要PROXY_UPSTREAM=your.server:8500 生效 必须 配置PROXY_PASS=http://backup
 ```
 
 ## env for stream
@@ -30,13 +31,6 @@ docker run -d --restart=always --name=docker-consul \
 -e CONSUL_HTTP_ADDR=http://consul:8500 \
 -e CONSUL_KEYFILE=key:/start.sh \
 -e CONSUL_OPT=put \
+-e HOOK_COMMAND="nsenter -m -u -i -n -p -t 1 host cmd"
 mj520/docker-2375:consul
-
-#use consul-template
-echo {{ key "key" }} > key.template
-docker run --rm -v d:/data:/data hashicorp/consul-template:alpine \
--template "/key.template:/key"
-
-docker run --rm -e consul kv get key > file
-
 ```

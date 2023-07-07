@@ -18,6 +18,6 @@ ENV CONSUL_OPT get
 # interval second
 ENV CONSUL_INTERVAL 60
 
-ENV CONSUL_HTTP_ADD http://consul:8500
+ENV CONSUL_HTTP_ADDR http://consul:8500
 
 ENV HOOK_COMMAND ""
