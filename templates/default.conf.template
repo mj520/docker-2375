@@ -1,4 +1,4 @@
-$PROXY_UPSTREAM
+upstream  backend {server $PROXY_UPSTREAM;keepalive 300;}
 server {
     auth_basic "User Authentication";
     auth_basic_user_file "$PROXY_AUTH";

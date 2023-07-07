@@ -6,7 +6,7 @@ EXPOSE 2375
 
 ENV PROXY_PORT 2375
 
-ENV PROXY_UPSTREAM "upstream  backend {server consul:8500;keepalive 300;}"
+ENV PROXY_UPSTREAM "127.0.0.1"
 
 ENV PROXY_PASS http://unix:/var/run/docker.sock
 
