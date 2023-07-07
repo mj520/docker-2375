@@ -31,13 +31,6 @@ docker run -d --restart=always --name=docker-consul \
 -e CONSUL_HTTP_ADDR=http://consul:8500 \
 -e CONSUL_KEYFILE=key:/start.sh \
 -e CONSUL_OPT=put \
+-e HOOK_COMMAND="nsenter -m -u -i -n -p -t 1 host cmd"
 mj520/docker-2375:consul
-
-#use consul-template
-echo {{ key "key" }} > key.template
-docker run --rm -v d:/data:/data hashicorp/consul-template:alpine \
--template "/key.template:/key"
-
-docker run --rm -e consul kv get key > file
-
 ```
