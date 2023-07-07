@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/alpine:nginx
 
 ADD templates/* /etc/nginx/templates/
 
