@@ -38,8 +38,9 @@ mj520/docker-2375:consul
 ## for cupsd-lpd
 ```
 docker run -d --restart=always --name cupsd-lpd \
--p 631:631 -p 515:515 --net=host --privileged \
--v /var/run/dbus:/var/run/dbus -v /data/conf/cupsd.conf:/etc/cups/cupsd.conf \
+-p 631:631 -p 515:515 --net=host --privileged --user=0:0
+-v /var/run/dbus:/var/run/dbus \
+-v /dev/bus/usb:/dev/bus/usb \
 registry.cn-hangzhou.aliyuncs.com/mj520/docker-2375:cupsd-lpd
 ```
 
