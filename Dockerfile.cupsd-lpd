@@ -1,6 +1,6 @@
 ARG MAINTAINER
 
-FROM olbat/cupsd:latest
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/docker-2375:cupsd
 
 MAINTAINER cupsd-lpd
 
