@@ -34,3 +34,12 @@ docker run -d --restart=always --name=docker-consul \
 -e HOOK_COMMAND="nsenter -m -u -i -n -p -t 1 host cmd"
 mj520/docker-2375:consul
 ```
+
+## for cupsd-lpd
+```
+docker run -d --restart=always --name cupsd-lpd \
+-p 631:631 -p 515:515 --net=host --privileged \
+-v /var/run/dbus:/var/run/dbus -v /data/conf/cupsd.conf:/etc/cups/cupsd.conf \
+registry.cn-hangzhou.aliyuncs.com/mj520/docker-2375:cupsd-lpd
+```
+

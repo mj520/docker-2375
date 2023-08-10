@@ -1,0 +1,15 @@
+ARG MAINTAINER
+
+FROM olbat/cupsd:latest
+
+MAINTAINER cupsd-lpd
+
+RUN apt-get update && \
+    apt-get install -y openbsd-inetd net-tools && \
+    echo "printer stream tcp nowait lp /usr/lib/cups/daemon/cups-lpd cups-lpd" >> /etc/inetd.conf && \
+    echo "#!/bin/bash\n/etc/init.d/openbsd-inetd start\n/usr/sbin/cupsd -f" >> /start.sh && \
+    chmod +x start.sh && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["/start.sh"]
