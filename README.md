@@ -35,10 +35,10 @@ docker run -d --restart=always --name=docker-consul \
 mj520/docker-2375:consul
 ```
 
-## for cupsd-lpd
+## for cupsd-lpd your set default print
 ```
 docker run -d --restart=always --name cupsd-lpd \
--p 631:631 -p 515:515 --net=host --privileged --user=0:0
+-p 631:631 -p 515:515 -p 9100:9100 --privileged --user=0:0
 -v /var/run/dbus:/var/run/dbus \
 -v /dev/bus/usb:/dev/bus/usb \
 registry.cn-hangzhou.aliyuncs.com/mj520/docker-2375:cupsd-lpd

@@ -7,6 +7,7 @@ MAINTAINER cupsd-lpd
 RUN apt-get update && \
     apt-get install -y openbsd-inetd net-tools && \
     echo "printer stream tcp nowait lp /usr/lib/cups/daemon/cups-lpd cups-lpd" >> /etc/inetd.conf && \
+    echo "9100 stream tcp nowait lp /usr/bin/lp lp" >> /etc/inetd.conf && \
     echo "#!/bin/bash\n/etc/init.d/openbsd-inetd start\n/usr/sbin/cupsd -f" >> /start.sh && \
     chmod +x start.sh && \
     apt-get clean && \
