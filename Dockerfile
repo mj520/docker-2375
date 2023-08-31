@@ -15,4 +15,7 @@ ENV PROXY_USER "admin:T8PxFzD7p5DUc"
 
 ENV PROXY_AUTH /etc/nginx/conf.d/htpasswd
 
+# proxy_set_header Token 'your';
+ENV PROXY_OTHER_PARAM ""
+
 RUN sed -i 's/nginx;/root;/g' /etc/nginx/nginx.conf
