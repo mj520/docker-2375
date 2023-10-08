@@ -14,9 +14,17 @@ while true;do
         fi
         if [ "$CONSUL_OPT" = "put" ];then
             content=`cat ${file}`
-            curl -s -X PUT -d "${content}" "${CONSUL_HTTP_ADDR}/v1/kv/${key}"
+            if [ "$CONSUL_HTTP_TOKEN" != "" ];then
+                curl -s -H "X-Consul-Token: ${CONSUL_HTTP_TOKEN}" -X PUT -d "${content}" "${CONSUL_HTTP_ADDR}/v1/kv/${key}"
+            else
+                curl -s -X PUT -d "${content}" "${CONSUL_HTTP_ADDR}/v1/kv/${key}"
+            fi
         else
-            curl -s -o "${file}" --create-dirs "${CONSUL_HTTP_ADDR}/v1/kv/${key}?raw=true"
+            if [ "$CONSUL_HTTP_TOKEN" != "" ];then
+                curl -s -H "X-Consul-Token: ${CONSUL_HTTP_TOKEN}" -o "${file}" --create-dirs "${CONSUL_HTTP_ADDR}/v1/kv/${key}?raw=true"
+            else
+                curl -s -o "${file}" --create-dirs "${CONSUL_HTTP_ADDR}/v1/kv/${key}?raw=true"
+            fi
         fi
     done
     if [ "$HOOK_COMMAND" != "" ];then
