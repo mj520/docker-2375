@@ -1,0 +1,10 @@
+# v2
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/immortalwrt:mt798x
+USER opde:opde
+ENV HOME /home/opde
+WORKDIR /openwrt/immortalwrt-mt798x
+COPY defconfig/mt7981-ax3000.config .config
+RUN sudo chown opde:opde .config
+RUN make defconfig
+RUN make download -j$(nproc)
+#RUN make -j$(nproc)

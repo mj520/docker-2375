@@ -1,0 +1,14 @@
+# v2
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/immortalwrt:mt798x
+USER opde:opde
+ENV HOME /home/opde
+WORKDIR /openwrt/immortalwrt-mt798x
+COPY mt7981-rax3000m.config .config
+RUN sudo chown opde:opde .config
+RUN make defconfig
+RUN make download -j$(nproc)
+CMD bash
+#https://github.com/gojuukaze/openwrt-build #docker自己手动编译
+#docker build -t registry.cn-hangzhou.aliyuncs.com/mj520/immortalwrt:rax3000m -f Dockerfile.rax3000m . #已经编译可以跳过
+#winpty docker run -it --name=rax3000m registry.cn-hangzhou.aliyuncs.com/mj520/immortalwrt:rax3000m bash
+#RUN make -j$(nproc) #编译失败采用 make -j1 V=s #这里是手动编译、注意切换到bash

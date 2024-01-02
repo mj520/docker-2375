@@ -1,0 +1,10 @@
+# v1
+FROM registry.cn-hangzhou.aliyuncs.com/mj520/immortalwrt:base
+USER opde:opde
+ENV HOME /home/opde
+WORKDIR /openwrt
+# 修改代码的地址
+RUN git clone --depth=1 https://github.com/mj520/immortalwrt-mt798x.git
+WORKDIR /openwrt/immortalwrt-mt798x
+RUN ./scripts/feeds update -a
+RUN ./scripts/feeds install -a
