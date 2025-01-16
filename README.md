@@ -44,3 +44,20 @@ docker run -d --restart=always --name cupsd-lpd \
 registry.cn-hangzhou.aliyuncs.com/mj520/docker-2375:cupsd-lpd
 ```
 
+## for metabase clickhouse 修改默认版本--build-arg TAG=v0.51.x --build-arg DRIVER_VERSION=1.51.0
+```
+docker build -f metabase/Dockerfile -t registry.cn-hangzhou.aliyuncs.com/mj520/docker2375:metabase .
+docker push registry.cn-hangzhou.aliyuncs.com/mj520/docker2375:metabase
+
+docker run -d --restart=always -p 3000:3000 --name metabase \
+-v /data/metabase/metabase.db:/metabase.db \
+registry.cn-hangzhou.aliyuncs.com/mj520/docker2375:metabase
+
+注意 metabase.db是目录 plugins 不能直接替换 只能加文件、
+手动插件clickhouse 1.51.0、其他插件一样的
+latest=$(curl -s https://api.github.com/repos/ClickHouse/metabase-clickhouse-driver/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') && \
+curl -L -o /data/metabase/plugins/clickhouse.metabase-driver.jar "https://github.com/ClickHouse/metabase-clickhouse-driver/releases/download/${latest}/clickhouse.metabase-driver.jar" && \
+chmod 744 /data/metabase/plugins/clickhouse.metabase-driver.jar
+增加参数
+-v /data/metabase/plugins/clickhouse.metabase-driver.jar:/plugins/clickhouse.metabase-driver.jar \
+```
